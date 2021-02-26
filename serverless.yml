@@ -1,10 +1,29 @@
 service: serverless-app
 
+plugins:
+  - serverless-plugin-aws-alerts
+
+custom:
+  alerts:
+    stages:
+      - dev
+    topics:
+      alarm:
+        topic: ${self:provider.environment.SNS_TOPIC}
+        notifications:
+          - protocol: email
+            endpoint: it199@hotmail.com 
+    alarms:
+      - functionErrors
+      - functionThrottles
+
 provider:
   name: aws
   runtime: nodejs12.x
   stage: dev # Default stage to be used. Default is "dev"
   region: us-east-1 # Default region to be used. Default is "us-east-1"
+  memorySize: 256
+  timeout: 10
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
     SNS_TOPIC: ${self:service}-${opt:stage, self:provider.stage}
@@ -60,6 +79,17 @@ functions:
           method: delete
           cors: true
 
+  GetAllSnsTopics:
+    handler: sns/listAllTopics.handler
+    events:
+      - httpApi: 'GET sns/topics'
+  PostSnsSubscription:
+    handler: sns/subscribeToTopic.handler
+    events:
+      - httpApi:
+          method: POST
+          path: sns/subscription
+
 resources:
   Resources:
     TodosDynamoDbTable:
@@ -78,8 +108,8 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
-        AlarmTopic:
-    Type: AWS::SNS::Topic
-      Properties:
-        DisplayName: 'Serverless Alerts'
-        TopicName: ${self:provider.environment.SNS_TOPIC}
+    # AlarmTopic:
+    #   Type: AWS::SNS::Topic
+    #   Properties:
+    #     DisplayName: 'Serverless Alerts'
+    #     TopicName: ${self:provider.environment.SNS_TOPIC}

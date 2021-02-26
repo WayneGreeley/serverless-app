@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/WayneGreeley/serverless-app#readme",
   "dependencies": {
+    "serverless-plugin-aws-alerts": "^1.7.1",
     "uuid": "^8.3.2"
   }
 }
