@@ -82,13 +82,13 @@ functions:
   GetAllSnsTopics:
     handler: sns/listAllTopics.handler
     events:
-      - httpApi: 'GET sns/topics'
+      - httpApi: 'GET /sns/topics'
   PostSnsSubscription:
     handler: sns/subscribeToTopic.handler
     events:
       - httpApi:
           method: POST
-          path: sns/subscription
+          path: /sns/subscription
 
 resources:
   Resources:
