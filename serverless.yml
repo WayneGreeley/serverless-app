@@ -1,4 +1,4 @@
-service: $(opt:repo)
+service: serverless-app
 
 provider:
   name: aws
@@ -21,7 +21,7 @@ functions:
   create:
     handler: todos/create.create
     events:
-      - httpApi:
+      - http:
           path: todos
           method: post
           cors: true
@@ -29,7 +29,7 @@ functions:
   list:
     handler: todos/list.list
     events:
-      - httpApi:
+      - http:
           path: todos
           method: get
           cors: true
@@ -37,7 +37,7 @@ functions:
   get:
     handler: todos/get.get
     events:
-      - httpApi:
+      - http:
           path: todos/{id}
           method: get
           cors: true
@@ -45,7 +45,7 @@ functions:
   update:
     handler: todos/update.update
     events:
-      - httpApi:
+      - http:
           path: todos/{id}
           method: put
           cors: true
@@ -53,7 +53,7 @@ functions:
   delete:
     handler: todos/delete.delete
     events:
-      - httpApi:
+      - http:
           path: todos/{id}
           method: delete
           cors: true
@@ -62,7 +62,7 @@ resources:
   Resources:
     TodosDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
-      DeletionPolicy: Retain
+      # DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
           -
