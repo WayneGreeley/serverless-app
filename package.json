@@ -1,0 +1,22 @@
+{
+  "name": "serverless-app",
+  "version": "1.0.0",
+  "description": "Severless framework experiments",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WayneGreeley/serverless-app.git"
+  },
+  "author": "Wayne Greeley",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/WayneGreeley/serverless-app/issues"
+  },
+  "homepage": "https://github.com/WayneGreeley/serverless-app#readme",
+  "dependencies": {
+    "uuid": "^8.3.2"
+  }
+}
