@@ -3,9 +3,11 @@ service: serverless-app
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: $(opt:stage)
+  stage: dev # Default stage to be used. Default is "dev"
+  region: us-east-1 # Default region to be used. Default is "us-east-1"
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    SNS_TOPIC: ${self:service}-${opt:stage, self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -76,3 +78,8 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
+        AlarmTopic:
+    Type: AWS::SNS::Topic
+      Properties:
+        DisplayName: 'Serverless Alerts'
+        TopicName: ${self:provider.environment.SNS_TOPIC}
